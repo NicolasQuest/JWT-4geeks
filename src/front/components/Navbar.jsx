@@ -16,9 +16,9 @@ export const Navbar = () => {
 			<div className="container-fluid d-flex align-items-center justify-content-between">
 
 				<div className="d-flex align-items-center gap-5">
-					<a href="https://4geeks.com/es/login" target="_blank" rel="noopener noreferrer">
-						<img src={geeks} alt="4Geeks Logo" />
-					</a>
+
+					<img style={{ cursor: "pointer" }} onClick={() => navigate("/")} src={geeks} alt="4Geeks Logo" />
+
 
 					<ul
 						onClick={() => {
