@@ -45,64 +45,69 @@ export const Login = () => {
 			});
 			navigate("/User");
 		} catch (err) {
-			return err.message;
+			Swal.fire({
+				title: "Login failed",
+				text: err.message,
+				icon: "error",
+			});
 		}
+	}
 
 
 
 
 
-		return (
 
-			<div className="row" >
-				<div
-					className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center"
-				>
-					<img onClick={() => {
+	return (
+		<div className="row">
+			<div className="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
+				<img
+					onClick={() => {
 						Swal.fire({
 							title: "Info",
 							text: "This is just a photo",
 							icon: "question",
 						});
-					}} src={geeksimg2} alt="Logo" />
-					<form className="w-50 mt-4">
-						<div className="form-group py-2">
+					}}
+					src={geeksimg2}
+					alt="Logo"
+				/>
+				<form className="w-50 mt-4" onSubmit={handleLogin}>
+					<div className="form-group py-2">
+						<input
+							type="email"
+							className="form-control"
+							placeholder="Enter email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							required
+						/>
+					</div>
 
-							<input
-								type="email"
-								className="form-control"
-								id="exampleInputEmail1"
-								placeholder="Enter email"
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</div>
+					<div className="form-group pb-2 py-2">
+						<input
+							type="password"
+							className="form-control"
+							placeholder="Password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+					</div>
 
-						<div className="form-group pb-2 py-2">
-
-							<input
-								type="password"
-								className="form-control"
-								id="exampleInputPassword1"
-								placeholder="Password"
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-						</div>
-
-						<div className="text-center py-2">
-							<button onClick={handleLogin} type="submit" className="btn btn-primary w-100">
-								Log In
-							</button>
-						</div>
-					</form>
-				</div>
-				<div className="col-12 col-lg-6">
-					<img
-						src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
-						style={{ width: "100%", height: "100vh", objectFit: "cover" }}
-					/>
-				</div>
-
+					<div className="text-center py-2">
+						<button type="submit" className="btn btn-primary w-100">
+							Log In
+						</button>
+					</div>
+				</form>
 			</div>
-
-		);
-	}; 
+			<div className="col-12 col-lg-6">
+				<img
+					src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+					style={{ width: "100%", height: "100vh", objectFit: "cover" }}
+				/>
+			</div>
+		</div>
+	);
+}; 
