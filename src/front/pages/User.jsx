@@ -9,8 +9,7 @@ export const User = () => {
 	const backendUrl = import.meta.env.VITE_BACKEND_URL;
 	const navigate = useNavigate();
 	const [userEmail, setUserEmail] = useState(null)
-	const token = localStorage.getItem("token")
-	const refreshToken = localStorage.getItem("refresh_token")
+
 	const [count, setCount] = useState(0);
 	const { store } = useGlobalReducer();
 
@@ -22,36 +21,40 @@ export const User = () => {
 	};
 
 	useEffect(() => {
-		const fetchProtected = async () => {
-			try {
-				const response = await fetch(`${backendUrl}protected`, {
-					method: 'GET',
-					headers: {
-						'Authorization': `Bearer ${token}`,
-						'Content-Type': 'application/json',
-					},
-				});
-
-				if (response.status === 401) {
-					console.log("Expred token, trying to refresh");
-					await refresh();
-					return;
-				}
-
-				if (!response.ok) {
-					throw new Error("Error in the request");
-				}
-
-				const data = await response.json();
-				setUserEmail(data.email);
-			} catch (error) {
-				console.error("Error ", error);
-			}
-		};
 		fetchProtected();
 	}, []);
 
+
+	const fetchProtected = async () => {
+		const token = localStorage.getItem("token");
+		try {
+			const response = await fetch(`${backendUrl}protected`, {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (response.status === 401) {
+				console.log("Expired token, trying to refresh");
+				await refresh();
+				return;
+			}
+
+			if (!response.ok) {
+				throw new Error("Error in the request");
+			}
+
+			const data = await response.json();
+			setUserEmail(data.email);
+		} catch (error) {
+			console.error("Error in protected request", error);
+		}
+	};
+
 	const refresh = async () => {
+		const refreshToken = localStorage.getItem("refresh_token");
 		try {
 			const response = await fetch(`${backendUrl}refresh`, {
 				method: 'POST',
@@ -68,13 +71,13 @@ export const User = () => {
 			const data = await response.json();
 			localStorage.setItem("token", data.access_token);
 
-			// Intenta nuevamente la llamada protegida con el nuevo token
-			window.location.reload(); // o vuelve a llamar fetchProtected()
+			await fetchProtected();
 		} catch (error) {
 			console.error("Error trying to refresh the token", error);
 			navigate("/login");
 		}
 	};
+
 
 	console.log("Access token actual:", localStorage.getItem("token"));
 
