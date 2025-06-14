@@ -68,8 +68,8 @@ export const Navbar = () => {
 							<button
 								onClick={() => {
 									Swal.fire({
-										title: "Are you sure?",
-										text: "You won't be able to revert this!",
+										title: "Why leaving so soon?",
+										text: "Make sure you’ve saved all your work before logging out.",
 										icon: "warning",
 										showCancelButton: true,
 										confirmButtonColor: "#3085d6",
