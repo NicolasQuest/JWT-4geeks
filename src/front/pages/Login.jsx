@@ -65,7 +65,7 @@ export const Login = () => {
 					onClick={() => {
 						Swal.fire({
 							title: "Info",
-							text: "This is just a photo",
+							text: "This is just an image",
 							icon: "question",
 						});
 					}}
